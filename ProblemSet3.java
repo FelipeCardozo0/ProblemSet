@@ -1,70 +1,86 @@
+/* This code is my own work. It was written without consulting code written by other students or code from online resources. Felipe Cardozo*/
+
 public class ProblemSet3 {
     public static void main(String[] args) {
-    System.out.println(sumOdds(-1,29));
-    System.out.println(approximatePi(20));
+        System.out.println(sumOdds(8, 29));
+        System.out.println(sumOdds(-48, 12));
+        System.out.println(sumOdds(12, -48));
+        System.out.println(sumOdds(-4, 10));
+
+        System.out.println(digitsInARow(1122233333));
+        System.out.println(digitsInARow(-0000001));
+        System.out.println(digitsInARow(-10000001));
+        System.out.println(digitsInARow(988888889));
+
+        System.out.println(approximatePi(999999999));
+
     }
     public static String sumOdds(int start, int end) {
-        if (start % 2 == 0 || end % 2 == 0) {
-            return "Error: Both start and end must be odd numbers.";
-        }
+            if (start > end) {
+                int temp = start;
+                start = end;
+                end = temp;
+            }
 
-        int n = (end - start)/2 +1;
-        int Sum = n/2*(start+end);
+            if (start % 2 == 0) {
+                start++;
+            }
 
-         return ""+ Sum;
+            if (end % 2 == 0) {
+                end--;
+            }
+
+            int sum = 0;
+
+            for (int i = start; i <= end; i += 2) {
+                sum += i;
+            }
+            return "" + sum;
     }
+
     public static int digitsInARow (int n){
-        if (n <10) {
-            return 1;
-        }
         if (n < 0) {
             n = -n;
         }
-
-        int previous_digit = n%10;          //To keep track of the previous digit for comparison.
-        n/=10;
-        int current_count =1;      //To count how many times the current digit has appeared consecutively.
-        int highest_count = 1;              //To store the maximum count of consecutive digits found.
-        while (n > 0) {
-            int currentDigit = n % 10; // Current digit
-
-            if (currentDigit == previous_digit){
-                current_count++; // Increment current count if digits match
-            }
-            else {
-                highest_count = Math.max(highest_count, current_count); // Update highest count
-                current_count = 1; // Reset count for the new digit
-            }
-
-            previous_digit = currentDigit; // Update lastDigit for the next comparison
-            n /= 10; // Remove the last digit
+        if (n <10) {
+            return 1;
         }
 
-        // Final check to ensure the last sequence is counted
+
+        int previous_digit = n%10;
+        n/=10;
+        int current_count =1;
+        int highest_count = 1;
+        while (n > 0) {
+            int currentDigit = n % 10;
+
+            if (currentDigit == previous_digit){
+                current_count++;
+            }
+            else {
+                highest_count = Math.max(highest_count, current_count);
+                current_count = 1;
+            }
+
+            previous_digit = currentDigit;
+            n /= 10;
+        }
         highest_count = Math.max(highest_count, current_count);
 
-        return highest_count; // Return the highest count of consecutive digits
+        return highest_count;
 
     }
 
     public static double approximatePi(int n) {
 
-        double approx = 0.0;
-        int sign = -1;
+    double approx = 0;
+    int sign = -1;
 
-        // -- start Gregory-Leibniz series
-        for (int i = 1; i <= n; i++) {  // do this 'n' times
-            sign *= -1;
-            approx += sign * (4.0 / (2 * i - 1));
-        }
-        // -- end Gregory-Leibniz series
+    for (int i = 1; i <= n; i++) {
+        sign *= -1;
+        approx += sign * (4.0 / (2 * i - 1));
+    }
 
-        System.out.println("Approximate value of pi is: " + approx);
-
-        double PI = Math.PI;  // Get the constant value of PI from the Math library
-        double difference = PI - approx;
-        System.out.println("Deviation from Pi is: " + difference);
-
-        return approx;
+    return approx;
     }
 }
