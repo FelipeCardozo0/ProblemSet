@@ -82,7 +82,7 @@ public class ProblemSet7 {
         char token = player.equals("Red") ? 'R' : 'B';
         int column = play - 1;
         for (int row = grid.length - 1; row >= 0; row--) {
-            if (grid[row][column] == '-') {
+            if (grid[row][column] == ' ') {
                 grid[row][column] = token;
                 break;
             }
