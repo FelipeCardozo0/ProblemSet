@@ -1,4 +1,10 @@
+
+/* This code is my own work. It was written without consulting code written by
+        other students or code from online resources.   Felipe Cardozo */
 import java.util.Scanner;
+
+
+
 
 public class ProblemSet7 {
 
