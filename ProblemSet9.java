@@ -6,7 +6,7 @@ public class ProblemSet9 {
         System.out.println(groupSum(0, new int[]{1, 2, 3}, 2));
         System.out.println(groupSum6(0, new int[]{1, 2, 3}, 2));
         System.out.println(groupSumClump(0, new int[]{1, 2, 3}, 2));
-        System.out.println(groupSumNoAdj(0, new int[]{1, 2, 3}, 2));
+        System.out.println(groupSumNoAdj(0, new int[]{1, 2, 3},2));
         System.out.println(rollDice(1));
         sumDice();
 
@@ -92,8 +92,8 @@ public class ProblemSet9 {
             sumCounts[sum]++;
         }
 
-        for (int i = 2; i <= 12; i++) {
-            System.out.println("Sum " + i + ": " + sumCounts[i]);
+        for (int i = 2;i <= 12;i++) {
+            System.out.println("Sum " +i+ "-" + sumCounts[i]);
         }
     }
 
