@@ -24,53 +24,51 @@ public class ProblemSet10 {
         return true;
     }
 
-public static boolean isValidFilename(String filename, String sys){
+    public static boolean isValidFilename(String filename, String sys) {
+        if (sys.equals("Windows")) {
+            if (filename.matches("^\\s+|\\s+$")) return false;
+            if (filename.matches(".*[/?<>\\\\:*|\"].*")) return false;
+            if (filename.matches(".*com[1-9]$")) return false;
+            if (filename.indexOf(".") == -1 || filename.indexOf(".") != filename.lastIndexOf(".")) return false;
+            String[] parts = filename.split("\\.");
+            String name = parts[0];
+            String extension = parts[1];
+            if (!extension.matches("^[a-z]+$")) return false;
+            if (extension.length() < 2 || extension.length() > 6) return false;
+        }
 
-    if (sys.equals("Windows")){
-        if (filename.length()<2 || filename.length()>6)return false;
-        if (filename.matches("\\^s+|\\\\s+$"))return false;
+        if (sys.equals("Mac") || sys.equals("Linux")) {
+            if (filename.contains(":") || filename.indexOf(".") == -1) return false;
+            String[] parts = filename.split("\\.");
+            if (parts.length != 2) return false;
+            String name = parts[0];
+            String extension = parts[1];
+            if (!extension.matches("^[a-z]+$")) return false;
+            if (extension.length() < 2 || extension.length() > 6) return false;
+            if (name.contains(":") || name.contains(".")) return false;
+        }
 
-        if (filename.matches(".*[/?<>\\:*|.].*")) return false;
-
-        if (filename.substring(filename.length()-2,filename.length()-1).matches("comX"))return false;
-        //The file name is separated from the file extension by exactly one period character
-        //The file extension can only contain lower case alphabet letters
+        return true;
     }
-    if (sys.equals("Mac") ||sys.equals("Linux")){
-        if (filename.isEmpty() ||filename.length()>15)return false;
-        if (!filename.matches("^[A-Za-z]+$"))return false;
-        if (!filename.matches("^[^.:]*$")) return false;
-    }
-    return true;
-}
+
     public static String extractTitle(String s) {
         int startIndex = s.indexOf("<title>") + 7;
         int endIndex = s.indexOf("</title>");
 
         if (startIndex == 6 || endIndex == -1) {
-            return "";              }
+            return ""; // Return empty string if no valid title tags are found
+        }
 
         return s.substring(startIndex, endIndex);
     }
 
 
-public static String swearFilter(String text, String[] swear){
-    String temp = text.toLowerCase();
-    for(String t : swear){
-        String star = "";
-        for(int i=0;i<t.length()-2;i++){
-            star+="*";
+
+    public static String swearFilter(String text, String[] swear) {
+        for (String word : swear) {
+            String maskedWord = word.charAt(0) + "*".repeat(word.length() - 1);
+            text = text.replaceAll("(?i)" + word, maskedWord);
         }
-        temp=temp.replace(t, t.charAt(0)+star+t.charAt(t.length()-1));
+        return text;
     }
-    String ret="";
-    for(int i=0;i<temp.length();i++){
-        if(temp.charAt(i)=='*'){
-            ret +="*";
-        }else{
-            ret +=text.charAt(i);
-        }
-    }
-    return ret;
-}
 }
