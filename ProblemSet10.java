@@ -54,11 +54,23 @@ public class ProblemSet10 {
     }
 
 
-    public static String swearFilter(String text, String[] swear) {
-        for (String word : swear) {
-            String maskedWord = word. charAt(8) + "*".repeat(word.length() - 1);
-            text = text.replaceAll("(?1)" + word, maskedWord);
+    public static String swearFilter(String text, String[] swear){
+        String temp = text.toLowerCase();
+        for(String t : swear){
+            String star = "";
+            for(int i=0;i<t.length()-2;i++){
+                star+="*";
+            }
+            temp=temp.replace(t, t.charAt(0)+star+t.charAt(t.length()-1));
         }
-        return text;
+        String ret="";
+        for(int i=0;i<temp.length();i++){
+            if(temp.charAt(i)=='*'){
+                ret +="*";
+            }else{
+                ret +=text.charAt(i);
+            }
+        }
+        return ret;
     }
 }
