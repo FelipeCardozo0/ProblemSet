@@ -24,49 +24,41 @@ public class ProblemSet10 {
         return true;
     }
 
-public static boolean isValidFilename(String filename, String sys) {
-    if (sys.equals("Windows")) {
-        if (filename.matches("^\\s+|\\s+$")) return false;
-        if (filename.matches(".*[/?<>\\:*|.\"]+.*")) return false;
-        if (filename.length() >= 4 && filename.substring(filename.length() - 4).matches("com[1-9]")) return false;
-        int lastDot = filename.lastIndexOf('.');
-        if (lastDot == -1 || lastDot == 0 || lastDot == filename.length() - 1) return false;
-        String extension = filename.substring(lastDot + 1);
-        if (!extension.matches("[a-z]{2,6}")) return false;
+    public static boolean isValidFilename(String filename, String sys){
+
+        if (sys.equals("Windows")){
+            if (filename.length()<2 || filename.length()>6)return false;
+            if (filename.matches("\\^s+|\\\\s+$"))return false;
+
+            if (filename.matches(".*[/?<>\\:*|.].*")) return false;
+
+            if (filename.substring(filename.length()-2,filename.length()-1).matches("comX"))return false;
+            //The file name is separated from the file extension by exactly one period character
+            //The file extension can only contain lower case alphabet letters
+        }
+        if (sys.equals("Mac") ||sys.equals("Linux")){
+            if (filename.isEmpty() ||filename.length()>15)return false;
+            if (!filename.matches("^[A-Za-z]+$"))return false;
+            if (!filename.matches("^[^.:]*$")) return false;
+        }
+        return true;
     }
-
-    if (sys.equals("Mac") || sys.equals("Linux")) {
-        if (filename.contains(".") || filename.contains(":")) return false;
-        int lastDot = filename.lastIndexOf('.');
-        if (lastDot == -1 || lastDot == 0 || lastDot == filename.length() - 1) return false;
-        String extension = filename.substring(lastDot + 1);
-        if (!extension.matches("[a-zA-Z]{2,6}")) return false;
-    }
-
-    return true;
-}
-
-
     public static String extractTitle(String s) {
         int startIndex = s.indexOf("<title>") + 7;
         int endIndex = s.indexOf("</title>");
 
         if (startIndex == 6 || endIndex == -1) {
-            return ""; // Return empty string if no valid title tags are found
-        }
+            return "";              }
 
         return s.substring(startIndex, endIndex);
     }
 
 
-
-public static String swearFilter(String text, String[] swear) {
-    for (String word : swear) {
-        String maskedWord = word.charAt(0) + "*".repeat(word.length() - 2) + word.charAt(word.length() - 1);
-        String regex = "(?i)\\b" + word + "\\b";  // case-insensitive matching for whole words
-        text = text.replaceAll(regex, maskedWord);
+    public static String swearFilter(String text, String[] swear) {
+        for (String word : swear) {
+            String maskedWord = word. charAt(8) + "*".repeat(word.length() - 1);
+            text = text.replaceAll("(?1)" + word, maskedWord);
+        }
+        return text;
     }
-    return text;
-}
-
 }
