@@ -5,6 +5,8 @@ public class ProblemSet10 {
         public static void main(String[] args) {
             System.out.println(isValidPassword("sdfghjk"));
             System.out.println(isValidFilename("homework5.java","Linux"));
+            System.out.println(isValidFilename("myfile_com99.xlsx", "Windows"));
+            System.out.println(isValidFilename("mydoc.DOCX", "Linux"));
             System.out.println(extractTitle("<item><title>Split (2017)</title><meta><imdb>6375308</imdb></meta>"));
             System.out.println(extractTitle("<item><title>Split (2017)</title><meta><imdb>6375308</imdb></meta>"));
             System.out.println(extractTitle("<item><title>Improper Title Tag<meta><imdb>1234567</imdb><genre>Unknown</genre>"));
@@ -35,45 +37,42 @@ public class ProblemSet10 {
 
             if (sys.equals("Windows")){
 
-                        // Check for leading/trailing spaces
                         if (filename.matches("^\\s+|\\s+$")) return false;
 
-                        // Check for invalid characters in Windows filenames
                         if (filename.matches(".*[/?<>\\:*|.].*")) return false;
 
-                        // Check for forbidden filename "comX" at the end (Windows specific)
-                        if (filename.substring(filename.length() - 4).equals("comX")) return false;
+                if (filename.matches(".*[cC][oO][mM][1-9]$") && !filename.matches(".*[cC][oO][mM][1-9][a-zA-Z0-9]*$")) {
+                    return false;
+                }
 
-                        // Regular expression to check for valid file extension
-                        String pattern = ".*\\.([a-z]{2,6})$";  // Matches a dot followed by 2-6 lowercase letters at the end of the string
 
+                String pattern = "^[^\\.]+\\.[a-z]{2,6}$";
                         if (!filename.matches(pattern)) {
                             return false;
                         }
                     }
 
+                if (sys.equals("Mac") || sys.equals("Linux")) {
+                    // Check if filename contains a colon or more than one period
+                    if (filename.contains(":") || filename.indexOf('.') != filename.lastIndexOf('.')) {
+                        return false;
+                    }
 
-            
-            if (sys.equals("Mac") ||sys.equals("Linux")){
-                // Rule 1: No period or colon allowed except for exactly one period separating the name and extension
-                if (filename.matches(".*[:].*|.*[.].*")) return false;
-                String[] parts = filename.split("\\.");
+                    // Split the filename by the period
+                    String[] parts = filename.split("\\.");
 
-                // Rule 2: Exactly one period separating the name and extension
-                if (parts.length != 2) return false; // If there's not exactly one period, return false
+                    // Ensure there are exactly two parts: name and extension
+                    if (parts.length != 2) return false;
 
-                // Rule 3: The extension must only contain alphabet letters
-                if (!parts[1].matches("^[A-Za-z]+$")) return false;
+                    // Check that the extension consists of only letters
+                    if (!parts[1].matches("^[A-Za-z]+$")) return false;
 
-                // Rule 4: The extension length must be between 2 and 6 characters
-                if (parts[1].length() < 2 || parts[1].length() > 6) return false;
-
-
-
-
+                    // Ensure the extension length is between 2 and 6 characters
+                    if (parts[1].length() < 2 || parts[1].length() > 6) return false;
+                }
+                return true;
             }
-            return true;
-        }
+
         ///////////////////////
         public static String extractTitle(String s) {
             String pattern = "<item><title>(.*?)</(title| Title Tag)>";
@@ -90,13 +89,22 @@ public class ProblemSet10 {
 
     public static String swearFilter(String text, String[] swear) {
         for (String word : swear) {
-            // Create a regular expression that is case-insensitive
-            String regex = "(?i)" + word;
-            // Replace the swear word with asterisks (keeping the first character intact)
-            String replacement = word.charAt(0) + "*".repeat(word.length() - 1);
-            // Perform the replacement
+            // Add word boundaries to ensure full word matching
+            String regex = "(?i)\\b" + word + "\\b";
+
+            // Keep the first and last characters, replace the middle with '*'
+            String replacement = word.charAt(0) + "*".repeat(word.length() - 2) + word.charAt(word.length() - 1);
+
+            // Handle case where word length is 1 or 2
+            if (word.length() == 1) {
+                replacement = word; // No replacement needed for 1-letter words
+            } else if (word.length() == 2) {
+                replacement = word.charAt(0) + "*"; // For 2-letter words, just replace the second letter
+            }
+
             text = text.replaceAll(regex, replacement);
         }
         return text;
     }
+
     }
