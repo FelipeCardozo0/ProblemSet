@@ -60,11 +60,13 @@ public static boolean isValidFilename(String filename, String sys) {
 
 
 
-    public static String swearFilter(String text, String[] swear) {
-        for (String word : swear) {
-            String maskedWord = word.charAt(0) + "*".repeat(word.length() - 1);
-            text = text.replaceAll("(?i)" + word, maskedWord);
-        }
-        return text;
+public static String swearFilter(String text, String[] swear) {
+    for (String word : swear) {
+        String maskedWord = word.charAt(0) + "*".repeat(word.length() - 2) + word.charAt(word.length() - 1);
+        String regex = "(?i)\\b" + word + "\\b";  // case-insensitive matching for whole words
+        text = text.replaceAll(regex, maskedWord);
     }
+    return text;
+}
+
 }
