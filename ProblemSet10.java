@@ -24,32 +24,28 @@ public class ProblemSet10 {
         return true;
     }
 
-    public static boolean isValidFilename(String filename, String sys) {
-        if (sys.equals("Windows")) {
-            if (filename.matches("^\\s+|\\s+$")) return false;
-            if (filename.matches(".*[/?<>\\\\:*|\"].*")) return false;
-            if (filename.matches(".*com[1-9]$")) return false;
-            if (filename.indexOf(".") == -1 || filename.indexOf(".") != filename.lastIndexOf(".")) return false;
-            String[] parts = filename.split("\\.");
-            String name = parts[0];
-            String extension = parts[1];
-            if (!extension.matches("^[a-z]+$")) return false;
-            if (extension.length() < 2 || extension.length() > 6) return false;
-        }
-
-        if (sys.equals("Mac") || sys.equals("Linux")) {
-            if (filename.contains(":") || filename.indexOf(".") == -1) return false;
-            String[] parts = filename.split("\\.");
-            if (parts.length != 2) return false;
-            String name = parts[0];
-            String extension = parts[1];
-            if (!extension.matches("^[a-z]+$")) return false;
-            if (extension.length() < 2 || extension.length() > 6) return false;
-            if (name.contains(":") || name.contains(".")) return false;
-        }
-
-        return true;
+public static boolean isValidFilename(String filename, String sys) {
+    if (sys.equals("Windows")) {
+        if (filename.matches("^\\s+|\\s+$")) return false;
+        if (filename.matches(".*[/?<>\\:*|.\"]+.*")) return false;
+        if (filename.length() >= 4 && filename.substring(filename.length() - 4).matches("com[1-9]")) return false;
+        int lastDot = filename.lastIndexOf('.');
+        if (lastDot == -1 || lastDot == 0 || lastDot == filename.length() - 1) return false;
+        String extension = filename.substring(lastDot + 1);
+        if (!extension.matches("[a-z]{2,6}")) return false;
     }
+
+    if (sys.equals("Mac") || sys.equals("Linux")) {
+        if (filename.contains(".") || filename.contains(":")) return false;
+        int lastDot = filename.lastIndexOf('.');
+        if (lastDot == -1 || lastDot == 0 || lastDot == filename.length() - 1) return false;
+        String extension = filename.substring(lastDot + 1);
+        if (!extension.matches("[a-zA-Z]{2,6}")) return false;
+    }
+
+    return true;
+}
+
 
     public static String extractTitle(String s) {
         int startIndex = s.indexOf("<title>") + 7;
