@@ -3,15 +3,15 @@ import java.util.regex.Pattern;
 
 public class ProblemSet10 {
         public static void main(String[] args) {
-            System.out.println(isValidPassword("sdfghjk"));
-            System.out.println(isValidFilename("homework5.java","Linux"));
-            System.out.println(isValidFilename("myfile_com99.xlsx", "Windows"));
-            System.out.println(isValidFilename("mydoc.DOCX", "Linux"));
-            System.out.println(extractTitle("<item><title>Split (2017)</title><meta><imdb>6375308</imdb></meta>"));
-            System.out.println(extractTitle("<item><title>Split (2017)</title><meta><imdb>6375308</imdb></meta>"));
-            System.out.println(extractTitle("<item><title>Improper Title Tag<meta><imdb>1234567</imdb><genre>Unknown</genre>"));
-            System.out.println(swearFilter("A duck was sailing on a ship shipping whole wheat bread. Duck that SHIP!!!",
-                    new String[]{"duck","ship", "whole"}));
+
+
+            System.out.println(swearFilter("duck", new String[]{"DUCK"}));
+            System.out.println(swearFilter("DUCK", new String[]{"duck"}));
+            System.out.println(swearFilter("Duck", new String[]{"duck"}));
+            System.out.println(swearFilter("ducking", new String[]{"duck"}));
+            System.out.println(swearFilter("reduck", new String[]{"duck"}));
+            System.out.println(swearFilter("shipping duck ship", new String[]{"DUCK","ship"}));
+
 
 
 
@@ -87,24 +87,24 @@ public class ProblemSet10 {
             }
         }
 
-    public static String swearFilter(String text, String[] swear) {
-        for (String word : swear) {
-            // Add word boundaries to ensure full word matching
-            String regex = "(?i)\\b" + word + "\\b";
+    public static String swearFilter(String text, String[] swearWords) {
+        for (String swear : swearWords) {
+            // Create a regex pattern that matches the swear word within a larger word
+            Pattern pattern = Pattern.compile("(?i)" + swear);
+            Matcher matcher = pattern.matcher(text);
 
-            // Keep the first and last characters, replace the middle with '*'
-            String replacement = word.charAt(0) + "*".repeat(word.length() - 2) + word.charAt(word.length() - 1);
-
-            // Handle case where word length is 1 or 2
-            if (word.length() == 1) {
-                replacement = word; // No replacement needed for 1-letter words
-            } else if (word.length() == 2) {
-                replacement = word.charAt(0) + "*"; // For 2-letter words, just replace the second letter
-            }
-
-            text = text.replaceAll(regex, replacement);
+            // Replace all occurrences of the swear word
+            text = matcher.replaceAll(match -> {
+                String word = match.group();
+                if (word.length() > 2) {
+                    return word.charAt(0) + "*".repeat(word.length() - 2) + word.charAt(word.length() - 1);
+                }
+                return word; // Keep the word unchanged if length <= 2
+            });
         }
         return text;
     }
+
+
 
     }
