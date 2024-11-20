@@ -12,9 +12,7 @@ public class ProblemSet10 {
             System.out.println(swearFilter("reduck", new String[]{"duck"}));
             System.out.println(swearFilter("shipping duck ship", new String[]{"DUCK","ship"}));
             System.out.println(isValidFilename("myfile_com99.xlsx", "Windows"));
-
-
-
+            System.out.println(isValidFilename("rom_com3.txt", "Windows"));
 
 
 
@@ -37,13 +35,14 @@ public class ProblemSet10 {
         public static boolean isValidFilename(String filename, String sys){
 
             if (sys.equals("Windows")){
-                String regex = "^[^\\s/?:*<>\"|.]+\\.[a-z]{2,6}$";
-                String forbiddenComPattern = ".*com[1-9]$";
-                return filename.matches(regex) && !filename.matches(forbiddenComPattern);
+                String regex = "^[^\\s/?:*<>\"|.]+(?<!com[1-9])\\.[a-z]{2,6}$";
+
+                return filename.matches(regex);
 
             }
 
-                if (sys.equals("Mac") || sys.equals("Linux")) {
+
+            if (sys.equals("Mac") || sys.equals("Linux")) {
                     if (filename.contains(":") || filename.indexOf('.') != filename.lastIndexOf('.')) {
                         return false;
                     }
