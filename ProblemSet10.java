@@ -1,3 +1,7 @@
+/* This code is my own work. It was written without consulting code written by
+other students or code from online resources. [Felipe Cardozo] */
+
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -5,24 +9,30 @@ public class ProblemSet10 {
         public static void main(String[] args) {
 
 
+            System.out.println(isValidPassword("duck"));
+            System.out.println(isValidFilename("myfile_com99.xlsx", "Windows"));
+            System.out.println(isValidFilename("rom_com3.txt", "Windows"));
+            System.out.println(isValidFilename("roooco.txt", "Mac"));
+            System.out.println("");
+
+
+            System.out.println(extractTitle("<item><title>(.*?)</title>"));
+            System.out.println(swearFilter("duck", new String[]{"DUCK"}));
             System.out.println(swearFilter("duck", new String[]{"DUCK"}));
             System.out.println(swearFilter("DUCK", new String[]{"duck"}));
             System.out.println(swearFilter("Duck", new String[]{"duck"}));
             System.out.println(swearFilter("ducking", new String[]{"duck"}));
             System.out.println(swearFilter("reduck", new String[]{"duck"}));
-            System.out.println(swearFilter("shipping duck ship", new String[]{"DUCK","ship"}));
-            System.out.println(isValidFilename("myfile_com99.xlsx", "Windows"));
-            System.out.println(isValidFilename("rom_com3.txt", "Windows"));
 
 
 
         }
         public static boolean isValidPassword(String s){
-            if (s.length() < 6 || s.length() > 8) {
+            if (!s.matches(".{6,8}")) {
                 return false;
             }
-            String passwordPattern = "^([A-Z!@#])([\\w]{5,7})([^*%.])$";
-            if (!s.matches(passwordPattern)) {
+
+            if (!s.matches("^([A-Z!@#])([\\w]{5,7})([^*%.])$")) {
                 return false;
             }
             if (s.matches(".*\\s.*")) {
@@ -41,39 +51,35 @@ public class ProblemSet10 {
 
             }
 
-
             if (sys.equals("Mac") || sys.equals("Linux")) {
-                    if (filename.contains(":") || filename.indexOf('.') != filename.lastIndexOf('.')) {
-                        return false;
-                    }
-
-                    String[] parts = filename.split("\\.");
-
-                    if (parts.length != 2) return false;
-
-                    if (!parts[1].matches("^[A-Za-z]+$")) return false;
-
-                    if (parts[1].length() < 2 || parts[1].length() > 6) return false;
-                    else return true;
+                if (filename.matches(".*:.*|.*\\..*\\..*")) {
+                    return false;
                 }
 
+
+                    String[] parts=filename.split("\\.");
+                //I couldn't find a way to have a . between file and file extension and still ban other .'s
+                // so decided to split the string, learned this on codinbat 3 arrays
+                if (parts.length!=2) return false;
+                if (filename.matches(":"))return false;
+
+                    if (!parts[1].matches("^[A-Za-z]+$")) return false;
+                return parts[1].matches("^.{2,6}$"); //Idea suggestion for simplification
+                }
 
                 return false;
             }
 
         public static String extractTitle(String s) {
-            String pattern = "<item><title>(.*?)</(title| Title Tag)>";
-            Pattern r = Pattern.compile(pattern);
+            String result = s.replaceAll(".*<title>(.*?)</title>.*", "$1");
 
-            Matcher m = r.matcher(s);
-
-            if (m.find()) {
-                return m.group(1);
-            }
-            else {
+            if (result.equals(s)) {//idea suggestion for simplification
                 return s;
+            } else {
+                return result;
             }
         }
+
 
     public static String swearFilter(String text, String[] swearWords) {
         for (String swear : swearWords) {
@@ -92,5 +98,7 @@ public class ProblemSet10 {
     }
 
 
-
     }
+
+
+
