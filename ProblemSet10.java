@@ -92,7 +92,7 @@ public class ProblemSet10 {
 
             String replacement = word.charAt(0)+stars.toString()+word.charAt(word.length() - 1);
 
-            String pattern ="(?i)"+word; //case-insensitive to always recognize the word
+            String pattern ="(?i)"+word; //case-insensitive to always recognize the word, learned from yt videos studying for Monday'checkpoint
 
             result = result.replaceAll(pattern, replacement);
         }
