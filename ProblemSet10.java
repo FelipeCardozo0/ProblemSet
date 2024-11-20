@@ -2,6 +2,8 @@
 other students or code from online resources. [Felipe Cardozo] */
 
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ProblemSet10 {
     public static void main(String[] args) {
@@ -79,23 +81,23 @@ public class ProblemSet10 {
     }
 
 
-    public static String swearFilter(String text, String[] swear) {
+    public static String swearFilter(String text, String[] swearWords) {
+        for (String swear : swearWords) {
+            Pattern pattern =Pattern.compile("(?i)" + swear);// pattern case insensitive, learned studying for Monday's checkpoint
+            Matcher matcher= pattern.matcher(text);
 
-        for (String word : swear) { //This is needed for the replacement pattern: first char+ stars+ last char
-            //learned on java GT course on edx about object-oriented programming
-
-            String stChar = word.substring(0, 1);
-            String lChar = word.substring(word.length()-1);String stars="*".repeat(word.length() - 2);
-                
-            String replacement = stChar + stars + lChar;
-
-            String pattern="(?i)" +word;
-
-            text =text.replaceAll(pattern,replacement);
+            text = matcher.replaceAll(match->{// replaceAll learned in class with lambda expression learned from Codingbat responses on YT
+                String word=match.group(); 
+                if (word.length() >2){
+                        return word.charAt(0)+"*".repeat(word.length()-2)+ word.charAt(word.length()-1);
+                }
+                return word;
+            });
         }
-
         return text;
     }
+
+
 }
 
 
