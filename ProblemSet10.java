@@ -11,6 +11,8 @@ public class ProblemSet10 {
             System.out.println(swearFilter("ducking", new String[]{"duck"}));
             System.out.println(swearFilter("reduck", new String[]{"duck"}));
             System.out.println(swearFilter("shipping duck ship", new String[]{"DUCK","ship"}));
+            System.out.println(isValidFilename("myfile_com99.xlsx", "Windows"));
+
 
 
 
@@ -35,22 +37,25 @@ public class ProblemSet10 {
         public static boolean isValidFilename(String filename, String sys){
 
             if (sys.equals("Windows")){
+                // Regular expression to match the conditions:
+                // 1. No leading or trailing whitespace
+                // 2. Does not contain the restricted special characters
+                // 3. Does not end with com1, com2, ..., or com9
+                // 4. Exactly one period separating the filename and extension
+                // 5. Extension contains only lowercase alphabet letters (between 2 to 6 characters)
 
-                        if (filename.matches("^\\s+|\\s+$")) return false;
+                String regex = "^[^\\s/?:*<>\"|.]+\\.[a-z]{2,6}$";  // Matches:
+                // - No leading or trailing whitespace or special characters
+                // - Exactly one period separating the filename and extension
+                // - The extension must be between 2 to 6 characters, and only lowercase letters
 
-                        if (filename.matches(".*[/?<>\\:*|.].*")) return false;
+                // Additional condition: does not end with "com" followed by a digit from 1 to 9
+                String additionalRegex = "^(?!.*com[1-9]$).*"; // Ensures the filename doesn't end with com1, com2, ..., com9
 
-                if (filename.matches(".*[cC][oO][mM][1-9]$") && !filename.matches(".*[cC][oO][mM][1-9][a-zA-Z0-9]*$")) {
-                    return false;
-                }
-
-
-                String pattern = "^[^<>:\"/\\\\|?*]+\\.[a-z]{2,6}$";
-
-                if (!filename.matches(pattern)) {
-                            return false;
-                        }
-                    }
+                // Use matches() to check if the filename matches both regex patterns
+                return filename.matches(regex) && filename.matches(additionalRegex);
+            
+            }
 
                 if (sys.equals("Mac") || sys.equals("Linux")) {
                     if (filename.contains(":") || filename.indexOf('.') != filename.lastIndexOf('.')) {
@@ -64,8 +69,11 @@ public class ProblemSet10 {
                     if (!parts[1].matches("^[A-Za-z]+$")) return false;
 
                     if (parts[1].length() < 2 || parts[1].length() > 6) return false;
+                    else return true;
                 }
-                return true;
+
+
+                return false;
             }
 
         public static String extractTitle(String s) {
