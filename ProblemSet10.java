@@ -32,7 +32,6 @@ public class ProblemSet10 {
             return true;
         }
 
-        ///////////////////////
         public static boolean isValidFilename(String filename, String sys){
 
             if (sys.equals("Windows")){
@@ -46,34 +45,29 @@ public class ProblemSet10 {
                 }
 
 
-                String pattern = "^[^\\.]+\\.[a-z]{2,6}$";
-                        if (!filename.matches(pattern)) {
+                String pattern = "^[^<>:\"/\\\\|?*]+\\.[a-z]{2,6}$";
+
+                if (!filename.matches(pattern)) {
                             return false;
                         }
                     }
 
                 if (sys.equals("Mac") || sys.equals("Linux")) {
-                    // Check if filename contains a colon or more than one period
                     if (filename.contains(":") || filename.indexOf('.') != filename.lastIndexOf('.')) {
                         return false;
                     }
 
-                    // Split the filename by the period
                     String[] parts = filename.split("\\.");
 
-                    // Ensure there are exactly two parts: name and extension
                     if (parts.length != 2) return false;
 
-                    // Check that the extension consists of only letters
                     if (!parts[1].matches("^[A-Za-z]+$")) return false;
 
-                    // Ensure the extension length is between 2 and 6 characters
                     if (parts[1].length() < 2 || parts[1].length() > 6) return false;
                 }
                 return true;
             }
 
-        ///////////////////////
         public static String extractTitle(String s) {
             String pattern = "<item><title>(.*?)</(title| Title Tag)>";
             Pattern r = Pattern.compile(pattern);
@@ -82,24 +76,23 @@ public class ProblemSet10 {
 
             if (m.find()) {
                 return m.group(1);
-            } else {
-                return "";
+            }
+            else {
+                return s;
             }
         }
 
     public static String swearFilter(String text, String[] swearWords) {
         for (String swear : swearWords) {
-            // Create a regex pattern that matches the swear word within a larger word
             Pattern pattern = Pattern.compile("(?i)" + swear);
             Matcher matcher = pattern.matcher(text);
 
-            // Replace all occurrences of the swear word
             text = matcher.replaceAll(match -> {
                 String word = match.group();
                 if (word.length() > 2) {
                     return word.charAt(0) + "*".repeat(word.length() - 2) + word.charAt(word.length() - 1);
                 }
-                return word; // Keep the word unchanged if length <= 2
+                return word;
             });
         }
         return text;
