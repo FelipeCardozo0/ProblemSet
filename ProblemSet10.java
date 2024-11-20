@@ -2,7 +2,7 @@
 other students or code from online resources. [Felipe Cardozo] */
 
 
-public class ProblemSet10 {
+public class test {
     public static void main(String[] args) {
 
 
@@ -56,8 +56,7 @@ public class ProblemSet10 {
 
 
             String[] parts=filename.split("\\.");
-            //I couldn't find a way to have a . between file and file extension and still ban other .'s
-            // so decided to split the string, learned this on codinbat 3 arrays
+            // I decided to split the string so the . is still is escaped for the extension, learned this on codinbat 3 arrays
             if (parts.length!=2) return false;
             if (filename.matches(":"))return false;
 
@@ -81,27 +80,30 @@ public class ProblemSet10 {
 
 
 
-        public static String swearFilter(String text, String[] swearWords) {
-            String result = text;
+    public static String swearFilter(String text, String[] swearWords) {
+        String result = text;
 
-            for (String word : swearWords) {
-                StringBuilder stars = new StringBuilder();
-                for (int i = 0; i < word.length() - 2; i++) {
-                    stars.append("*");
-                }
-                String replacement = word.charAt(0) + stars.toString() + word.charAt(word.length() - 1);
+        for (String word : swearWords) {
+            StringBuilder stars = new StringBuilder();
 
-                String pattern = "(?i)" + word;
 
-                result = result.replaceAll(pattern, replacement);
-            }
-            return result;
+            stars.append("*".repeat(Math.max(0, word.length() - 2)));//String builder learned from codinbat
+
+
+            String replacement = word.charAt(0)+stars.toString()+word.charAt(word.length() - 1);
+
+            String pattern ="(?i)"+word; //case-insensitive to always recognize the word
+
+            result = result.replaceAll(pattern, replacement);
         }
+        return result;
+    }
+    }
 
 
 
 
-}
+
 
 
 
