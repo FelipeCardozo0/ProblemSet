@@ -2,9 +2,6 @@
 other students or code from online resources. [Felipe Cardozo] */
 
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class ProblemSet10 {
     public static void main(String[] args) {
 
@@ -18,6 +15,7 @@ public class ProblemSet10 {
 
         System.out.println(extractTitle("<item><title>(.*?)</title>"));
         System.out.println(swearFilter("duck", new String[]{"DUCK"}));
+        System.out.println(swearFilter("A duck was sailing on a ship shipping whole wheat bread. Duck that SHIP!!!", new String[]{"DUCK", "Whole", "ship"}));
         System.out.println(swearFilter("duck", new String[]{"DUCK"}));
         System.out.println(swearFilter("DUCK", new String[]{"duck"}));
         System.out.println(swearFilter("Duck", new String[]{"duck"}));
@@ -81,21 +79,17 @@ public class ProblemSet10 {
     }
 
 
-    public static String swearFilter(String text, String[] swearWords) {
-        for (String swear : swearWords) {
-            Pattern pattern =Pattern.compile("(?i)" + swear);// pattern case insensitive, learned studying for Monday's checkpoint
-            Matcher matcher= pattern.matcher(text);
 
-            text = matcher.replaceAll(match->{// replaceAll learned in class with lambda expression learned from Codingbat responses on YT
-                String word=match.group(); 
-                if (word.length() >2){
-                        return word.charAt(0)+"*".repeat(word.length()-2)+ word.charAt(word.length()-1);
-                }
-                return word;
-            });
+    public static String swearFilter(String text, String[] swearWords) {
+        for (String word : swearWords) {
+            String regex = "(?i)" + word.charAt(0) + ".{" + (word.length() - 2) + "}" + word.charAt(word.length() - 1);
+            String replacement = word.charAt(0) + "*".repeat(word.length() - 2) + word.charAt(word.length() - 1);
+            text = text.replaceAll(regex, replacement);
         }
         return text;
     }
+
+
 
 
 }
