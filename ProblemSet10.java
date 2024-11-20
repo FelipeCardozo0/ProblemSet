@@ -2,9 +2,6 @@
 other students or code from online resources. [Felipe Cardozo] */
 
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class ProblemSet10 {
         public static void main(String[] args) {
 
@@ -81,20 +78,28 @@ public class ProblemSet10 {
         }
 
 
-    public static String swearFilter(String text, String[] swear) {
-        for (String swearWord : swear) {
+    public static String swearFilter(String text, String[] swearWords) {
+        for (String swear : swearWords) {
+            // Find the swear word in a case-insensitive way
+            String lowerCaseText = text.toLowerCase();
+            String lowerCaseSwear = swear.toLowerCase();
 
-            String replacement = swearWord.charAt(0)
-                    + "*".repeat(swearWord.length() - 2)
-                    + swearWord.charAt(swearWord.length() - 1);
+            int index = lowerCaseText.indexOf(lowerCaseSwear);
+            while (index != -1) {
+                String originalWord = text.substring(index, index + swear.length());
+                String censoredWord = originalWord.charAt(0)
+                        + "*".repeat(originalWord.length() - 2)
+                        + originalWord.charAt(originalWord.length() - 1);
 
-            String regex = "\\b" + Pattern.quote(swearWord) + "\\b";
+                text = text.substring(0, index) + censoredWord + text.substring(index + swear.length());
+                lowerCaseText = text.toLowerCase();
 
-            text = text.replaceAll("(?i)" + regex, replacement);
+                index = lowerCaseText.indexOf(lowerCaseSwear, index + censoredWord.length());
+            }
         }
         return text;
-    }}
-
+    }
+}
 
     }
 
