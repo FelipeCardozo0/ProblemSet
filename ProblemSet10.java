@@ -37,24 +37,10 @@ public class ProblemSet10 {
         public static boolean isValidFilename(String filename, String sys){
 
             if (sys.equals("Windows")){
-                // Regular expression to match the conditions:
-                // 1. No leading or trailing whitespace
-                // 2. Does not contain the restricted special characters
-                // 3. Does not end with com1, com2, ..., or com9
-                // 4. Exactly one period separating the filename and extension
-                // 5. Extension contains only lowercase alphabet letters (between 2 to 6 characters)
+                String regex = "^[^\\s/?:*<>\"|.]+\\.[a-z]{2,6}$";
+                String forbiddenComPattern = ".*com[1-9]$";
+                return filename.matches(regex) && !filename.matches(forbiddenComPattern);
 
-                String regex = "^[^\\s/?:*<>\"|.]+\\.[a-z]{2,6}$";  // Matches:
-                // - No leading or trailing whitespace or special characters
-                // - Exactly one period separating the filename and extension
-                // - The extension must be between 2 to 6 characters, and only lowercase letters
-
-                // Additional condition: does not end with "com" followed by a digit from 1 to 9
-                String additionalRegex = "^(?!.*com[1-9]$).*"; // Ensures the filename doesn't end with com1, com2, ..., com9
-
-                // Use matches() to check if the filename matches both regex patterns
-                return filename.matches(regex) && filename.matches(additionalRegex);
-            
             }
 
                 if (sys.equals("Mac") || sys.equals("Linux")) {
