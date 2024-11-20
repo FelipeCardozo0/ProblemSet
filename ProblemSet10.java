@@ -81,21 +81,19 @@ public class ProblemSet10 {
         }
 
 
-    public static String swearFilter(String text, String[] swearWords) {
-        for (String swear : swearWords) {
-            Pattern pattern = Pattern.compile("(?i)" + swear);
-            Matcher matcher = pattern.matcher(text);
+    public static String swearFilter(String text, String[] swear) {
+        for (String swearWord : swear) {
 
-            text = matcher.replaceAll(match -> {
-                String word = match.group();
-                if (word.length() > 2) {
-                    return word.charAt(0) + "*".repeat(word.length() - 2) + word.charAt(word.length() - 1);
-                }
-                return word;
-            });
+            String replacement = swearWord.charAt(0)
+                    + "*".repeat(swearWord.length() - 2)
+                    + swearWord.charAt(swearWord.length() - 1);
+
+            String regex = "\\b" + Pattern.quote(swearWord) + "\\b";
+
+            text = text.replaceAll("(?i)" + regex, replacement);
         }
         return text;
-    }
+    }}
 
 
     }
