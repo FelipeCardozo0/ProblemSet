@@ -79,24 +79,21 @@ public class ProblemSet10 {
     }
 
 
-    public static String swearFilter(String text, String[] swearWords) {
-        for (String swear : swearWords) {
-            String lowerCaseText = text.toLowerCase();
-            String lowerCaseSwear = swear.toLowerCase();
+    public static String swearFilter(String text, String[] swear) {
 
-            int index = lowerCaseText.indexOf(lowerCaseSwear);
-            while (index != -1) {
-                String originalWord = text.substring(index, index + swear.length());
-                String censoredWord = originalWord.charAt(0)
-                        + "*".repeat(originalWord.length() - 2)
-                        + originalWord.charAt(originalWord.length() - 1);
+        for (String word : swear) { //This is needed for the replacement pattern: first char+ stars+ last char
+            //learned on java GT course on edx about object-oriented programming
 
-                text = text.substring(0, index) + censoredWord + text.substring(index + swear.length());
-                lowerCaseText = text.toLowerCase();
+            String stChar = word.substring(0, 1);
+            String lChar = word.substring(word.length()-1);String stars="*".repeat(word.length() - 2);
+                
+            String replacement = stChar + stars + lChar;
 
-                index = lowerCaseText.indexOf(lowerCaseSwear, index + censoredWord.length());
-            }
+            String pattern="(?i)" +word;
+
+            text =text.replaceAll(pattern,replacement);
         }
+
         return text;
     }
 }
