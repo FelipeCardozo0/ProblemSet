@@ -80,14 +80,23 @@ public class ProblemSet10 {
 
 
 
-    public static String swearFilter(String text, String[] swearWords) {
-        for (String word : swearWords) {
-            String regex = "(?i)" + word.charAt(0) + ".{" + (word.length() - 2) + "}" + word.charAt(word.length() - 1);
-            String replacement = word.charAt(0) + "*".repeat(word.length() - 2) + word.charAt(word.length() - 1);
-            text = text.replaceAll(regex, replacement);
+
+        public static String swearFilter(String text, String[] swearWords) {
+            String result = text;
+
+            for (String word : swearWords) {
+                StringBuilder stars = new StringBuilder();
+                for (int i = 0; i < word.length() - 2; i++) {
+                    stars.append("*");
+                }
+                String replacement = word.charAt(0) + stars.toString() + word.charAt(word.length() - 1);
+
+                String pattern = "(?i)" + word;
+
+                result = result.replaceAll(pattern, replacement);
+            }
+            return result;
         }
-        return text;
-    }
 
 
 
