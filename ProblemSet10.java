@@ -2,7 +2,7 @@
 other students or code from online resources. [Felipe Cardozo] */
 
 
-public class test {
+public class ProblemSet10 {
     public static void main(String[] args) {
 
 
