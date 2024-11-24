@@ -56,6 +56,46 @@ public class ProblemSet11 {
         return sum;
     }
 
+     public static int[] stringToIntArray(String s, int n) {
+        int[] result = new int[n];
+        int count = 0;
+        try {
+            for (int i=0; i < s.length(); i++) {
+                if (count >= n) break; // Stop when we have enough numbers
+                char c = s.charAt(i);
+                try {
+                    int num = Integer.parseInt(String.valueOf(c));
+                    result[count++] = num;
+                }
+                catch (NumberFormatException e) {
+                    System.out.println("Not a valid integer: "+ c + "Skipping ");
+                }
+                catch (Exception e) {
+                    System.out.println("Something went wrong with character: " + c + "Skipping");
+                }
+            }
+            if (count <n) {
+                System.out.println("String ended early. Stopping with only " + count + " numbers");
+                int[] truncatedResult = new int[count];
+                System.arraycopy(result, 0, truncatedResult, 0, count);
+                return truncatedResult;
+            }
+        } catch (StringIndexOutOfBoundsException e) {
+
+            System. out.println("String index out of bounds. Stopping with only "+ count + "numbers");
+            int[] truncatedResult = new int[count];
+            System.arraycopy(result, 0, truncatedResult, 0, count);
+
+            return truncatedResult;
+        }
+
+            return result;
+
+        }
+
+
+
+
 
 
     public static int[] subarray(int[] x, int start, int end) {
