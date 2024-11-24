@@ -26,6 +26,15 @@ public class ProblemSet11 {
             System.out.println("Exception caught: " + e.getMessage());
         }
 
+                    System.out.println(sumOfIntegerDiv(new int[]{2,4,6,8}, 1));
+                    System.out.println(sumOfIntegerDiv(new int[]{2,4,6,8}, 2));
+                            System.out.println(sumOfIntegerDiv(new int[]{2,4,6,8}, 3));
+                                    System.out.println(sumOfIntegerDiv(new int[]{0,2,4,6,8}, 3));
+                                            System.out.println(sumOfIntegerDiv(new int[]{2,4,6,0,8,16}, 5));
+                                                    System.out.println(sumOfIntegerDiv(new int[]{0,1,2,3}, 2));
+                                                            System.out.println(sumOfIntegerDiv(new int[]{1,2,3,0}, 2));
+                                                                    System.out.println(sumOfIntegerDiv(new int[]{1,2,3,0}, 5) );
+
     }
     public static int sumOfIntegerDiv(int[] a, int n) {
         int sum = 0;
