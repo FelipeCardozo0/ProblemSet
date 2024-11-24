@@ -1,4 +1,4 @@
-public class ProblemSet11 {
+public class ProblemSett11 {
     public static void main(String[] args) {
         int[] array = {1, 2, 3, 4, 5, 6};
 
@@ -28,27 +28,35 @@ public class ProblemSet11 {
 
     }
     public static int sumOfIntegerDiv(int[] a, int n) {
-        int sum = 0; // To store the cumulative sum
+        int sum = 0;
 
-        for (int i = 1; i < n && i < a.length; i++) {
+        // Ensure n does not exceed the length of the array
+        if (n > a.length || n < 2) {
+            System.out.println("Invalid value for n. It must be between 2 and the length of the array.");
+            return sum; // return 0 if n is not valid
+        }
+
+        for (int i = 1; i < n; i++) {
             try {
-                // Attempt to divide the current element by the preceding element
+                // Attempt to divide the current element by the previous one
                 sum += a[i] / a[i - 1];
             } catch (ArithmeticException e) {
                 // Handle division by zero
                 System.out.println("Cannot divide by zero. Skipping index: " + i);
             } catch (ArrayIndexOutOfBoundsException e) {
-                // Handle accessing invalid array index
+                // Handle out of bounds access
                 System.out.println("Cannot access array at index: " + i);
-                return sum; // Return the result if index is invalid
+                return sum; // Return the sum immediately if an out of bounds access occurs
             } catch (Exception e) {
-                // Handle any other exceptions
+                // Handle any other type of exception
                 System.out.println("Something went wrong! Skipping index: " + i);
             }
         }
 
-        return sum; // Return the total sum
+        return sum;
     }
+    
+
     public static int[] stringToIntArray(String s, int n) {
         int[] result = new int[n];
         int count = 0; // To keep track of valid integers added to the array
