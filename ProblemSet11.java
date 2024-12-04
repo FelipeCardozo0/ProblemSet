@@ -3,7 +3,17 @@ other students or code from online resources. Felipe Cardozo */
 
 public class ProblemSet11 {
     public static void main(String[] args) {
+        int[] array = {1, 2, 3, 4, 5, 6}; //Testing, included because it helped though it seems useless
+        int[] sub = subarray(array, 1, 4);
 
+        System.out.println(sumOfIntegerDiv(new int[]{2,4,6,8}, 1));
+        System.out.println(sumOfIntegerDiv(new int[]{2,4,6,8}, 2));
+        System.out.println(sumOfIntegerDiv(new int[]{2,4,6,8}, 3));
+        System.out.println(sumOfIntegerDiv(new int[]{0,2,4,6,8}, 3));
+        System.out.println(sumOfIntegerDiv(new int[]{2,4,6,0,8,16}, 5));
+        System.out.println(sumOfIntegerDiv(new int[]{0,1,2,3}, 2));
+        System.out.println(sumOfIntegerDiv(new int[]{1,2,3,0}, 2));
+        System.out.println(sumOfIntegerDiv(new int[]{1,2,3,0}, 5) );
     }
     public static int sumOfIntegerDiv(int[] a, int n) {
         int sum = 0;
@@ -40,9 +50,9 @@ public class ProblemSet11 {
                     int num = Integer.parseInt(String.valueOf(c));
                     result[count++] = num;
                 } catch (NumberFormatException e) {
-                    System.out.println("Index " + i + " not a valid integer: " + c + ". Skipping.");
+                    System.out.println("Index "+i+" not a valid integer:" +c +", that's why we're skipping it to  the next one.");
                 } catch (Exception e) {
-                    System.out.println("Something went wrong with character at index " + i + ": " + c + ". Skipping.");
+                    System.out.println("This is a generic warning that something went wrong with character at index " +i+" " + c);
                 }
             }
 
